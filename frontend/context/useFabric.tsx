@@ -1,7 +1,6 @@
 "use client";
 import { FabricJSEditor } from "fabricjs-react";
 import { fabric } from 'fabric';
-import { Dog } from "@/types";
 
 
 const useFabric = (editor: FabricJSEditor | undefined,) => {
