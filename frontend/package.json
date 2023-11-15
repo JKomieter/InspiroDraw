@@ -1,0 +1,49 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest",
+    "test:watch": "jest --watchAll"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.16",
+    "@mui/material": "^5.14.17",
+    "@next/font": "^14.0.2",
+    "@svgr/webpack": "^8.1.0",
+    "fabric": "^5.3.0",
+    "fabricjs-react": "^1.2.1",
+    "framer-motion": "^10.16.5",
+    "next": "14.0.1",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^14.1.0",
+    "@testing-library/user-event": "^14.5.1",
+    "@types/fabric": "^5.3.6",
+    "@types/jest": "^29.5.8",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.1",
+    "jest": "^29.7.0",
+    "jest-dom": "^4.0.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "nextjs-node-loader": "^1.1.5-alpha.0",
+    "node-loader": "^2.0.0",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5"
+  }
+}
