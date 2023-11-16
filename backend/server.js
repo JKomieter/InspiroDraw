@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const PORT = 5000;
+const PORT = 5050;
 const cors = require('cors');   
 const routes = require("./routes")
 const { Server } = require("socket.io");
@@ -19,6 +19,9 @@ const io = new Server(serveer, {
 });
 
 io.on('connection', (socket) => {
+    // generate a new board
+;    
+
     socket.on("disconnect", () => {
         console.log("User disconnected");
     });
