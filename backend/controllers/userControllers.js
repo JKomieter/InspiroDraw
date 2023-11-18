@@ -1,5 +1,6 @@
 const { firebase, auth, db } = require("../firebase/config");
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } = require("firebase/auth");
+const { addDoc, collection } = require("firebase/firestore");
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.secretOrPublicKey;
 
@@ -15,10 +16,6 @@ const generateToken = (id, email) => {
     return token;
 }
 
-
-const generateBoardId = () => {
-    return Math.random().toString(36).substring(7);
-}
 
 
 module.exports.signup = async (req, res) => {
@@ -65,17 +62,14 @@ module.exports.checkAuth = async (req, res) => {};
 
 module.exports.createBoard = async (req, res) => {
     try {
-        const boardId = generateBoardId();
-        console.log(req.body)
-        // const { boardName, username, userId } = req.body;
-        // const board = {
-        //     boardName,
-        //     username,
-        //     userId
-        // };
-        // // save the board to the DB
-        // await db.collection("boards").doc(boardId).set(board);
-        // res.status(200).json({ boardId });
+        const { boardName, users } = req.body;
+        const board = {
+            boardName,
+            users
+        };
+        // save the board to the DB
+        await addDoc(collection(db, "boards"), board);
+        res.status(200).json({ message: "Board created successfully" });
     } catch (error) {
         console.log(error);
         res.status(400).json({ message: "Failed to create board" });

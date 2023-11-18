@@ -1,17 +1,19 @@
 const express = require('express');
 const app = express();
+app.use(express.json());
 const PORT = 5050;
 const cors = require('cors');   
 const routes = require("./routes")
 const { Server } = require("socket.io");
 const http = require("http");
-const serveer = http.createServer(app);
+const boardHandler = require('./controllers/socketControllers');
+const server = http.createServer(app);
 
 app.use(cors());
 
 app.use(routes)
 
-const io = new Server(serveer, {
+const io = new Server(server, {
     cors: {
         origin: '*',
         methods: ['GET', 'POST']
@@ -20,13 +22,12 @@ const io = new Server(serveer, {
 
 io.on('connection', (socket) => {
     // generate a new board
-;    
-
+    boardHandler(socket);
     socket.on("disconnect", () => {
         console.log("User disconnected");
     });
 });
 
-serveer.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

@@ -4,9 +4,12 @@ import CommentIcon from '@mui/icons-material/Comment';
 import { Avatar, Divider } from '@mui/material';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { BoardContext } from '@/context/BoardContext';
+import { useContext } from 'react';
 
 
 const SubRightHeader = () => {
+    const { createBoard } = useContext(BoardContext);    
 
     const items = [
         {
@@ -45,7 +48,9 @@ const SubRightHeader = () => {
                     <KeyboardArrowDownIcon />
                 </span>
             </div>
-            <button className="px-4 py-2 bg-blue-600 text-white text-xs font-semibold mx-1 rounded-md">
+            <button
+            onClick={() => createBoard()}
+            className="px-4 py-2 bg-blue-600 text-white text-xs font-semibold mx-1 rounded-md">
                 Share
             </button>
         </div>

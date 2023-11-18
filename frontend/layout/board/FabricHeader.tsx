@@ -5,7 +5,7 @@ import RightFabricHeader from "./RightFabricHeader";
 
 const FabricHeader = () => {
     return (
-        <div className="top-0 w-full z-30 bg-[#767676]">
+        <div className="top-0 w-full z-30 bg-[#dee0e2]">
             <div className="flex flex-row items-center p-2 justify-between">
                 <LeftFabricHeader />
                 <RightFabricHeader />
