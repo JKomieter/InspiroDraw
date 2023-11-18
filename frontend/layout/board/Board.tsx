@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 import axios from 'axios';
 import { Skeleton } from '@mui/material';
 import { BoardContext } from '@/context/BoardContext';
-import { socket } from '@/app/socket';
+import { socket } from '@/socket';
 import { fabric } from 'fabric';
 
 
@@ -17,7 +17,7 @@ const Board = () => {
     const pathname = usePathname();
     const { setBoardName, newJoin, boardId } = useContext(BoardContext);
     const [boardCreated, setBoardCreated] = useState<boolean>(false);
-
+    
     useEffect(() => {
         if (!editor) return;
 
@@ -45,13 +45,11 @@ const Board = () => {
         };
     }, []);
 
-
     useEffect(() => {
-        if (!editor) return;
         if (newJoin) console.log('new join', newJoin);
 
         // send draw event from editor
-        editor.canvas.on('path:created', (e) => {
+        editor?.canvas.on('path:created', (e) => {
             // get the drawing to be sent to server and added to canvas
             socket.emit('draw', { boardId, path: e });
         });
@@ -60,15 +58,31 @@ const Board = () => {
         socket.on('draw-broadcast', (data) => {
             try {
                 console.log('draw broadcast', data);
-                // construct the fabric object from the fabric.IEvent<MouseEvent>
-                const path = new fabric.Path(data.path.path, data.path);
-                // add to canvas
-                editor.canvas.add(path);
-                editor.canvas.renderAll();
+                const path = new fabric.Path(data.path.path.path);
+                path.set({ ...data.path.path });
+                editor?.canvas.add(path);
             } catch (error) {
                 console.error('Error adding to canvas:', error);
             }
         });
+
+        // listen to add circle event from server
+        socket.on('add-circle-broadcast', (data) => {
+            try {
+                console.log('add circle broadcast', data);
+                // add the circle to canvas
+                const circle = new fabric.Circle(data.circle);
+                editor?.canvas.add(circle);
+            } catch (error) {
+                console.error('Error adding to canvas:', error);
+            }
+        });
+
+        // cleeaup
+        return () => {
+            socket.off('draw-broadcast');
+            editor?.canvas.off('path:created');
+        }
     }, [newJoin, editor]);
 
     return (

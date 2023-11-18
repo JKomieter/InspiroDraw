@@ -33,6 +33,7 @@ const boardHandler = (socket) => {
 
 
     const createBoard = async ({ boardName, username }) => {
+        console.log('create board', boardName, username)
         try {
             const boardId = generateBoardId();
             const socketId = socket.id;
@@ -47,10 +48,19 @@ const boardHandler = (socket) => {
             console.log('Failed to create board:', error);
         }
     };
+
+    const addCircle = ({ boardId, circle }) => {
+        try {
+            socket.to(boardId).emit('add-circle-broadcast', { circle });    
+        } catch (error) {
+            console.log('Failed to add circle:', error);
+        }
+    };
    
     socket.on('draw', drawHandler);
     socket.on('create-board', createBoard);
     socket.on('join-board', joinBoard);
+    socket.on('add-circle', addCircle);
 };
 
 module.exports = boardHandler;

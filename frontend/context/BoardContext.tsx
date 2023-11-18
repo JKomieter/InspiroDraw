@@ -1,8 +1,8 @@
 "use client";
-import { socket } from "@/app/socket";
+import { socket } from "@/socket";
 import { BoardContextType, Board } from "@/types";
 import { IEvent } from "fabric/fabric-impl";
-import { createContext, use, useEffect, useRef, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 
 const BoardContext = createContext<BoardContextType>({} as BoardContextType);
@@ -15,6 +15,8 @@ const BoardProvider = ({ children }: { children: React.ReactNode }) => {
     const [newJoin, setNewJoin] = useState<string | undefined>("");
     const [boardId, setBoardId] = useState<string | undefined>("");
     const [username, setUsername] = useState<string>("");
+
+    console.log('board', board);
 
     useEffect(() => {
         // listen for user joined
@@ -44,7 +46,6 @@ const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
-    console.log('board', board);
     const createBoard = async () => {
         try {
             // create board
