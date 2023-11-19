@@ -26,6 +26,7 @@ const Board = () => {
         // allow drawing
         editor.canvas.isDrawingMode = true;
         editor.canvas.renderOnAddRemove = true;
+
     }, [editor]);
 
     useEffect(() => {
@@ -50,8 +51,18 @@ const Board = () => {
 
         // send draw event from editor
         editor?.canvas.on('path:created', (e) => {
-            // get the drawing to be sent to server and added to canvas
             socket.emit('draw', { boardId, path: e });
+        });
+
+        // listen to add circle event from server
+        socket.on('add-circle-broadcast', (data) => {
+            try {
+                console.log('add circle broadcast', data);
+                const circle = new fabric.Circle(data.circle);
+                editor?.canvas.add(circle);
+            } catch (error) {
+                console.error('Error adding to canvas:', error);
+            }
         });
 
         // listen to draw event from server
@@ -66,21 +77,10 @@ const Board = () => {
             }
         });
 
-        // listen to add circle event from server
-        socket.on('add-circle-broadcast', (data) => {
-            try {
-                console.log('add circle broadcast', data);
-                // add the circle to canvas
-                const circle = new fabric.Circle(data.circle);
-                editor?.canvas.add(circle);
-            } catch (error) {
-                console.error('Error adding to canvas:', error);
-            }
-        });
-
         // cleeaup
         return () => {
             socket.off('draw-broadcast');
+            socket.off('add-circle-broadcast');
             editor?.canvas.off('path:created');
         }
     }, [newJoin, editor]);
@@ -88,7 +88,7 @@ const Board = () => {
     return (
         <div className="w-full h-full">
             <FabricHeader />
-            <Suspense fallback={<Skeleton className='w-full h-full absolute' />}>
+            <Suspense fallback={<Skeleton className='w-full h-full absolute -z-20' />}>
                 <FabricJSCanvas onReady={onReady} className='w-full h-full absolute overflow-scroll' />
             </Suspense>
             <FabricSidebar editor={editor} />

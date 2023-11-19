@@ -20,15 +20,16 @@ const BoardProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         // listen for user joined
-        socket.on('user-joined', ({username}) => {
-            console.log('user joined', username);
-            setNewJoin(username);
-        });
 
         socket.on('user-joined-broadcast', (data) => {
             console.log('user joined broadcast', data);
             setBoard(data);
         })
+
+        socket.on('user-joined', ({ username }) => {
+            console.log('user joined', username);
+            setNewJoin(username);
+        });
 
         return () => {
             socket.off('user-joined');
@@ -41,6 +42,10 @@ const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             socket.emit('join-board', { boardId: boardId, username: 'test' });
             
+            socket.on('user-joined', ({ username }) => {
+                console.log('user joined', username);
+                setNewJoin(username);
+            });
         } catch (error) {
             console.log('error joining board', error);   
         }

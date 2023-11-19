@@ -18,7 +18,7 @@ const JoinBoardPage = () => {
             <button
                 onClick={() => {
                     joinBoard();
-                    router.push(`/board/boardId/75bdnbv`);
+                    router.push(`/board/session/123456`);
                 }}
             >
                 Join

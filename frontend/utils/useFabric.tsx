@@ -10,10 +10,10 @@ const useFabric = (editor: FabricJSEditor | undefined,) => {
     const { boardId } = useContext(BoardContext)
     const addCircle = () => {
         const circle = new fabric.Circle({
-            radius: 20,
-            fill: 'green',
-            left: 100,
-            top: 100
+            radius: 40,
+            fill: 'blue',
+            left: 200,
+            top: 200
         });
         editor?.canvas.add(circle);
 

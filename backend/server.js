@@ -22,7 +22,7 @@ const io = new Server(server, {
 
 io.on('connection', (socket) => {
     // generate a new board
-    boardHandler(socket);
+    boardHandler(socket, io);
     socket.on("disconnect", () => {
         console.log("User disconnected");
     });
