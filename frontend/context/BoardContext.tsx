@@ -19,8 +19,7 @@ const BoardProvider = ({ children }: { children: React.ReactNode }) => {
     console.log('board', board);
 
     useEffect(() => {
-        // listen for user joined
-
+        // listen for user joined broadcast
         socket.on('user-joined-broadcast', (data) => {
             console.log('user joined broadcast', data);
             setBoard(data);

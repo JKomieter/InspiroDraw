@@ -7,7 +7,7 @@ const boardHandler = (socket, io) => {
     const drawHandler = ({ boardId, path }) => {
         // send the path to all users in the room
         console.log('draw', boardId, path);
-        socket.to(boardId).emit('draw-broadcast', { path });
+        io.to(boardId).emit('draw-broadcast', { path });
     };
 
     const joinBoard = async ({ boardId, username }) => {

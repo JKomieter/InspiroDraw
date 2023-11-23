@@ -6,6 +6,13 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { BoardContext } from '@/context/BoardContext';
 import { useContext } from 'react';
+import { Nunito } from 'next/font/google';
+
+
+const nunito = Nunito({
+    subsets: ['latin-ext'],
+    weight: ['700'],
+});
 
 
 const SubRightHeader = () => {
@@ -42,7 +49,7 @@ const SubRightHeader = () => {
                 <NotificationsNoneIcon />
             </div>
             <div className="flex flex-row items-center rounded-md bg-slate-200 py-1 mx-1">
-                <p className='px-3 text-xs font-semibold cursor-pointer'>Present</p>
+                <p className={`px-3 text-xs font-semibold cursor-pointer ${nunito.className}`}>Present</p>
                 <Divider orientation="vertical" flexItem />
                 <span className='px-2 cursor-pointer'>
                     <KeyboardArrowDownIcon />
@@ -50,7 +57,7 @@ const SubRightHeader = () => {
             </div>
             <button
             onClick={() => createBoard()}
-            className="px-4 py-2 bg-blue-600 text-white text-xs font-semibold mx-1 rounded-md">
+            className={`px-4 py-2 bg-blue-600 text-white text-xs font-semibold mx-1 rounded-md ${nunito.className}`}>
                 Share
             </button>
         </div>

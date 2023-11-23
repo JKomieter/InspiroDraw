@@ -41,9 +41,9 @@ const Board = () => {
             setBoardCreated(true);
         };
 
-        return () => {
-            !boardCreated && sendBoardName()
-        };
+        // return () => {
+        //     !boardCreated && sendBoardName()
+        // };
     }, []);
 
     useEffect(() => {
