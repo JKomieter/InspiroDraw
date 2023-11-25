@@ -18,6 +18,15 @@ export type BoardContextType = {
     setBoardId: React.Dispatch<React.SetStateAction<string | undefined>>,
     username: string | undefined,
     setUsername: React.Dispatch<React.SetStateAction<string>>,
+    editor: FabricJSEditor | undefined,
+    setEditor: React.Dispatch<React.SetStateAction<FabricJSEditor | undefined>>,
+    addCircle: () => void,
+    addRectangle: () => void,
+    addTriangle: () => void,
+    addStraightLine: () => void,
+    addText: () => void,
+    addPolygon: () => void,
+    addTextbox: (color: string) => void,
 }
 
 export type User = {

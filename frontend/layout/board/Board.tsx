@@ -1,5 +1,4 @@
 "use client";
-import useFabric from '@/utils/useFabric';
 import { FabricJSCanvas, useFabricJSEditor } from 'fabricjs-react';
 import { Suspense, useContext, useEffect, useState } from 'react';
 import FabricHeader from './FabricHeader';
@@ -15,7 +14,7 @@ import { fabric } from 'fabric';
 const Board = () => {
     const { editor, onReady } = useFabricJSEditor();
     const pathname = usePathname();
-    const { setBoardName, newJoin, boardId } = useContext(BoardContext);
+    const { setBoardName, newJoin, boardId, setEditor } = useContext(BoardContext);
     const [boardCreated, setBoardCreated] = useState<boolean>(false);
     
     useEffect(() => {
@@ -24,9 +23,9 @@ const Board = () => {
         editor.canvas.setBackgroundColor('#dee0e2', editor.canvas.renderAll.bind(editor.canvas));
         editor.canvas.allowTouchScrolling = true;
         // allow drawing
-        editor.canvas.isDrawingMode = true;
+        // editor.canvas.isDrawingMode = true;
         editor.canvas.renderOnAddRemove = true;
-
+        setEditor(editor);
     }, [editor]);
 
     useEffect(() => {
@@ -45,6 +44,48 @@ const Board = () => {
         //     !boardCreated && sendBoardName()
         // };
     }, []);
+
+    // useEffect(() => {
+    //     if (!editor || !editor.canvas) return;
+
+    //     const gridOptions = {
+    //         distance: 20,
+    //         width: editor.canvas.width || 0,
+    //         height: editor?.canvas.height || 0,
+    //         color: '#ccc',
+    //         borderColor: '#ddd',
+    //         borderWidth: 1,
+    //     };
+
+    //     editor?.canvas.on('after:render', () => {
+    //         const ctx = editor?.canvas.getContext();
+    //         const grid = 20;
+
+    //         ctx.beginPath();
+
+    //         const width = editor?.canvas.width || 0;
+    //         const height = editor?.canvas.height || 0;
+
+    //         for (let i = 0; i < width / grid; i++) {
+    //             const pos = i * grid;
+    //             ctx.moveTo(pos, 0);
+    //             ctx.lineTo(pos, height);
+    //             ctx.moveTo(0, pos);
+    //             ctx.lineTo(width, pos);
+    //         }
+
+    //         ctx.closePath();
+    //         ctx.strokeStyle = gridOptions.color;
+    //         ctx.lineWidth = gridOptions.borderWidth;
+    //         ctx.stroke();
+    //     });
+
+    //     return () => {
+    //         if (editor && editor.canvas) {
+    //             editor.canvas.dispose(); // Cleanup fabric canvas on component unmount
+    //         } 
+    //     };
+    // }, [editor]);
 
     useEffect(() => {
         if (newJoin) console.log('new join', newJoin);

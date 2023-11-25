@@ -2,7 +2,9 @@
 import { socket } from "@/socket";
 import { BoardContextType, Board } from "@/types";
 import { IEvent } from "fabric/fabric-impl";
+import { FabricJSEditor } from "fabricjs-react";
 import { createContext, useEffect, useState } from "react";
+import { useShapes } from "@/utils/useShapes";
 
 
 const BoardContext = createContext<BoardContextType>({} as BoardContextType);
@@ -15,8 +17,16 @@ const BoardProvider = ({ children }: { children: React.ReactNode }) => {
     const [newJoin, setNewJoin] = useState<string | undefined>("");
     const [boardId, setBoardId] = useState<string | undefined>("");
     const [username, setUsername] = useState<string>("");
-
-    console.log('board', board);
+    const [editor, setEditor] = useState<FabricJSEditor | undefined>(undefined);
+    const { 
+        addCircle, 
+        addRectangle, 
+        addTriangle, 
+        addStraightLine, 
+        addPolygon, 
+        addText,
+        addTextbox
+    } = useShapes(editor, boardId)
 
     useEffect(() => {
         // listen for user joined broadcast
@@ -64,6 +74,7 @@ const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
+
     return (
         <BoardContext.Provider value={{
             createBoard,
@@ -77,7 +88,16 @@ const BoardProvider = ({ children }: { children: React.ReactNode }) => {
             boardId,
             setBoardId,
             username,
-            setUsername
+            setUsername,
+            editor,
+            setEditor,
+            addCircle,
+            addRectangle,
+            addTriangle,
+            addStraightLine,
+            addText,
+            addPolygon,
+            addTextbox
         }}>
             {children}
         </BoardContext.Provider>

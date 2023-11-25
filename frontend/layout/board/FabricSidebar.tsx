@@ -1,5 +1,4 @@
 import { FabricSidebarProps } from "@/types";
-import useFabric from "@/utils/useFabric";
 import { useState } from "react";
 import InitialSidebar from "./InitialSidebar";
 import SlideSidebar from "./SlideSidebar";
@@ -12,7 +11,6 @@ const FabricSidebar: React.FC<FabricSidebarProps> = ({
 }) => {
     const [ isOpen, setIsOpen ] = useState(false);
 
-    const { addCircle } = useFabric(editor);
 
     return (
         <motion.div 
@@ -21,7 +19,7 @@ const FabricSidebar: React.FC<FabricSidebarProps> = ({
         transition={{ duration: 0.2 }}
         className=" h-full left-0 p-2 absolute z-30 flex flex-row">
             <SlideSidebar isOpen={isOpen} setIsOpen={setIsOpen} />
-            <InitialSidebar  addCircle={addCircle} setIsOpen={setIsOpen} isOpen={isOpen} />
+            <InitialSidebar  setIsOpen={setIsOpen} isOpen={isOpen} />
        </motion.div>
     )
 }

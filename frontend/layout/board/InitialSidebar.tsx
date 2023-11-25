@@ -7,11 +7,9 @@ import { items } from "./initialsidebaritems";
 
 
 const InitialSidebar = ({
-    addCircle,
     setIsOpen,
     isOpen,
 }: {
-    addCircle: () => void,
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
     isOpen: boolean
 }) => {

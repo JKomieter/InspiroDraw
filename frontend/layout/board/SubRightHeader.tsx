@@ -1,12 +1,13 @@
 import NearMeIcon from '@mui/icons-material/NearMe';
 import CelebrationIcon from '@mui/icons-material/Celebration';
 import CommentIcon from '@mui/icons-material/Comment';
-import { Avatar, Divider } from '@mui/material';
+import { Avatar, Badge, Divider } from '@mui/material';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { BoardContext } from '@/context/BoardContext';
 import { useContext } from 'react';
 import { Nunito } from 'next/font/google';
+import { Bolt } from '@/svgs/index.svg';
 
 
 const nunito = Nunito({
@@ -44,7 +45,9 @@ const SubRightHeader = () => {
                     </div>
                 ))
             }
-            <Avatar sx={{ width: 30, height: 30, bgcolor: 'blue' }}  className='p-2 mx-1'>J</Avatar>
+            <Badge badgeContent={<Bolt className="w-3 h-3" />} >
+                <Avatar sx={{ width: 25, height: 25, bgcolor: 'blue' }}  className='p-2 mx-1 fontthin'>J</Avatar>
+            </Badge>
             <div className="p-2 rounded-md hover:bg-[#fed2cf] duration-200 cursor-pointer">
                 <NotificationsNoneIcon />
             </div>
