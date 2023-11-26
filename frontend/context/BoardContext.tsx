@@ -1,8 +1,10 @@
 "use client";
-import { socket } from "@/app/socket";
+import { socket } from "@/socket";
 import { BoardContextType, Board } from "@/types";
 import { IEvent } from "fabric/fabric-impl";
-import { createContext, use, useEffect, useRef, useState } from "react";
+import { FabricJSEditor } from "fabricjs-react";
+import { createContext, useEffect, useState } from "react";
+import { useShapes } from "@/utils/useShapes";
 
 
 const BoardContext = createContext<BoardContextType>({} as BoardContextType);
@@ -15,18 +17,28 @@ const BoardProvider = ({ children }: { children: React.ReactNode }) => {
     const [newJoin, setNewJoin] = useState<string | undefined>("");
     const [boardId, setBoardId] = useState<string | undefined>("");
     const [username, setUsername] = useState<string>("");
+    const [editor, setEditor] = useState<FabricJSEditor | undefined>(undefined);
+    const { 
+        addCircle, 
+        addRectangle, 
+        addTriangle, 
+        addStraightLine, 
+        addPolygon, 
+        addText,
+        addTextbox
+    } = useShapes(editor, boardId)
 
     useEffect(() => {
-        // listen for user joined
-        socket.on('user-joined', ({username}) => {
-            console.log('user joined', username);
-            setNewJoin(username);
-        });
-
+        // listen for user joined broadcast
         socket.on('user-joined-broadcast', (data) => {
             console.log('user joined broadcast', data);
             setBoard(data);
         })
+
+        socket.on('user-joined', ({ username }) => {
+            console.log('user joined', username);
+            setNewJoin(username);
+        });
 
         return () => {
             socket.off('user-joined');
@@ -39,12 +51,15 @@ const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             socket.emit('join-board', { boardId: boardId, username: 'test' });
             
+            socket.on('user-joined', ({ username }) => {
+                console.log('user joined', username);
+                setNewJoin(username);
+            });
         } catch (error) {
             console.log('error joining board', error);   
         }
     };
 
-    console.log('board', board);
     const createBoard = async () => {
         try {
             // create board
@@ -59,6 +74,7 @@ const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
+
     return (
         <BoardContext.Provider value={{
             createBoard,
@@ -72,7 +88,16 @@ const BoardProvider = ({ children }: { children: React.ReactNode }) => {
             boardId,
             setBoardId,
             username,
-            setUsername
+            setUsername,
+            editor,
+            setEditor,
+            addCircle,
+            addRectangle,
+            addTriangle,
+            addStraightLine,
+            addText,
+            addPolygon,
+            addTextbox
         }}>
             {children}
         </BoardContext.Provider>
